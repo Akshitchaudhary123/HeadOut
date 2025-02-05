@@ -114,7 +114,7 @@ exports.createAdmin =async (req,res)=>{
  
  
         const otpExpireTime= Date.now()+1000*60  // one minute
-        admin = await admin.findOneAndUpdate({email:email},{
+        admin = await Admin.findOneAndUpdate({email:email},{
          $set:{
             otp:otp,
             otpExpireTime:otpExpireTime 
@@ -137,6 +137,7 @@ exports.createAdmin =async (req,res)=>{
             success:true,
             message:'Internal server error',
             result:{
+                error:error.message
             }
             
         })
