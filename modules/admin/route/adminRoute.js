@@ -9,7 +9,7 @@ const verifyToken = require('./../../../middlewares/verifyJWT.js').verifyToken
 adminRoute.post('/create-admin',upload.none(),adminController.createAdmin);
 adminRoute.post('/send-otp',upload.none(),adminController.sendOTP);
 adminRoute.post('/verify-otp',upload.none(),adminController.verifyOTP);
-adminRoute.post('/reset-password',upload.none(),adminController.resetPassword);
+adminRoute.post('/change-password',verifyToken,upload.none(),adminController.changePassword);
 adminRoute.post('/login',upload.none(),adminController.login);
 adminRoute.get('/profile-details',verifyToken,adminController.adminDetails);
 adminRoute.post('/edit-profile',verifyToken,upload.single('file'),adminController.editProfile);

@@ -277,15 +277,16 @@ exports.verifyOTP=async (req,res)=>{
 
 }
 
-exports.resetPassword=async(req,res)=>{
+exports.changePassword=async(req,res)=>{
 try {
     
-        let {email,newPassword,confirmPassword} = req.body;
-        email=email?.toLowerCase().trim();
+        let {newPassword,confirmPassword} = req.body;
+        // email=email?.toLowerCase().trim();
+        let userId = req.token._id;
         newPassword=newPassword?.trim();
         confirmPassword=confirmPassword?.trim();
     
-        let admin= await Admin.findOne({email:email});
+        let admin= await Admin.findById(userId);
         if(!admin){
             
                 return res.send({
@@ -336,7 +337,7 @@ try {
         }
         newPassword =  brcypt.hashSync(newPassword,10);
     
-        admin = await Admin.findOneAndUpdate({email},{
+        admin = await Admin.findOneAndUpdate({_id:userId},{
             $set:{
                password:newPassword
             }
@@ -346,7 +347,7 @@ try {
             return res.send({
               statusCode: 200,
               success: true,
-              message: "Password reset successfully",
+              message: "Password changed successfully",
               result: {
                 // name:admin.name,
                 // email:admin.email
